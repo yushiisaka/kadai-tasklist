@@ -14,10 +14,12 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $tasks = Task::all();
+  {
+      $tasks = Task::all();
         
         return view('tasks.index',['tasks' => $tasks,]);
+        
+       // ログインしてなかったら、welcomeを表示。
     }
 
     /**
@@ -63,8 +65,11 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
         
+        if(\Auth::id() === $task->user_id) {
         return view('tasks.show', [
             'task' => $task,]);
+        }
+        return redirect('/');
     }
 
     /**
@@ -96,10 +101,12 @@ class TasksController extends Controller
         ]);
         
         $task = Task::find($id);
+        
+        if(\Auth::id() === $task->user_id) {
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
-        
+        }
         return redirect('/');
 
     }
@@ -113,7 +120,10 @@ class TasksController extends Controller
     public function destroy($id)
     {
         $task = Task::find($id);
+        
+        if(\Auth::id() === $task->user_id) {
         $task->delete();
+        }
 
         return redirect('/');
     }
