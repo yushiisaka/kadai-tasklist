@@ -13,7 +13,8 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+  
+  public function index()
   {
       $tasks = Task::all();
         
@@ -48,6 +49,7 @@ class TasksController extends Controller
             'content' => 'required|max:181',
         ]);
         $task = new Task;
+        $task->user_id = \Auth::id();
          $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
@@ -65,7 +67,8 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
         
-        if(\Auth::id() === $task->user_id) {
+        
+        if(\Auth::id() == $task->user_id) {
         return view('tasks.show', [
             'task' => $task,]);
         }
@@ -102,7 +105,7 @@ class TasksController extends Controller
         
         $task = Task::find($id);
         
-        if(\Auth::id() === $task->user_id) {
+        if(\Auth::id() == $task->user_id) {
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
@@ -121,7 +124,7 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
         
-        if(\Auth::id() === $task->user_id) {
+        if(\Auth::id() == $task->user_id) {
         $task->delete();
         }
 
