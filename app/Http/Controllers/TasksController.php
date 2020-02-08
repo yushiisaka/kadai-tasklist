@@ -42,7 +42,6 @@ class TasksController extends Controller
             'task' => $task,
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -91,10 +90,13 @@ class TasksController extends Controller
     public function edit($id)
     {
          $task = Task::find($id);
+         
+         if(\Auth::id() == $task->user_id) {
         
         return view('tasks.edit', [
             'task' => $task,]);
              return redirect('/');
+    }
     }
 
     /**
@@ -121,7 +123,6 @@ class TasksController extends Controller
         return redirect('/');
 
     }
-
     /**
      * Remove the specified resource from storage.
      *
