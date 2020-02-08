@@ -13,15 +13,22 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-  
-  public function index()
-  {
-      $tasks = Task::all();
-        
+    public function index()
+    {
+        $tasks = new Task;
+ $data = [];
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $tasks = $user->tasks()->orderBy('user_id', 'desc')->paginate(10);
+            
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+        }
         return view('tasks.index',['tasks' => $tasks,]);
+        }
         
-       // ログインしてなかったら、welcomeを表示。
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -87,6 +94,7 @@ class TasksController extends Controller
         
         return view('tasks.edit', [
             'task' => $task,]);
+             return redirect('/');
     }
 
     /**
