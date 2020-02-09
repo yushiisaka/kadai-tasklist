@@ -9,7 +9,7 @@
             <thead>
                 <tr>
                     <th>id</th>
-                    <th>スタッツ</th>
+                    <th>ステータス</th>
                     <th>タスク</th>
                 </tr>
             </thead>
